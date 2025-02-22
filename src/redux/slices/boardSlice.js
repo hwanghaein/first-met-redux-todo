@@ -5,6 +5,12 @@ import deleteBoardThunk from "../thunks/deleteBoardThunk";
 const initialState = {
   boards: [],
   selectedBoardId: null,
+
+  resetBoardSaga: {
+    pending: false,
+    data: null,
+    error: null,
+  },
 };
 
 const boardSlice = createSlice({
@@ -38,7 +44,33 @@ const boardSlice = createSlice({
     resetBoard: () => {
       return initialState;
     },
+    // resetBoardSaga // Redux-Saga에서 사용하는 액션들
+    resetBoardSagaRequested: (state) => {
+      state.resetBoardSaga = {
+        ...state.resetBoardSaga,
+        pending: true,
+        data: null,
+        error: null,
+      };
+    },
+    resetBoardSagaSucceeded: (state, action) => {
+      state.resetBoardSaga = {
+        ...state.resetBoardSaga,
+        pending: false,
+        data: action.payload,
+      };
+    },
+    resetBoardSagaFailed: (state, action) => {
+      state.resetBoardSaga = {
+        ...state.resetBoardSaga,
+        pending: false,
+        error: action.payload,
+      };
+    },
   },
+
+  // deleteBoardThunk는 비동기 작업 (Thunk)으로 처리
+  // extraReducers를 통해 Thunk 액션 (pending, fulfilled, rejected)을 감지
   extraReducers: (builder) => {
     builder
       .addCase(deleteBoardThunk.pending, (state, action) => {
@@ -60,6 +92,10 @@ export const {
   deleteBoard,
   selectBoard,
   resetBoard,
+  // resetBoardSaga
+  resetBoardSagaRequested,
+  resetBoardSagaSucceeded,
+  resetBoardSagaFailed,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
