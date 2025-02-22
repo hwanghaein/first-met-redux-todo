@@ -1,46 +1,47 @@
-import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import { selectBoard, deleteBoard } from '../../redux/slices/boardSlice';
-import BoardItem from './\bBoardItem';
+import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
+import { selectBoard } from "../../redux/slices/boardSlice";
+import deleteBoardThunk from "../../redux/thunks/deleteBoardThunk";
+import BoardItem from "./\bBoardItem";
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
 
 function BoardList() {
-    const boards = useSelector((state) => state.board.boards);
-    // const boards = [
-    //  { id: 1, title: "오늘 할 일" },
-    //  { id: 2, title: "내일 할 일" },
-    // ];
+  const boards = useSelector((state) => state.board.boards);
+  // const boards = [
+  //  { id: 1, title: "오늘 할 일" },
+  //  { id: 2, title: "내일 할 일" },
+  // ];
 
-    const selectedBoardId = useSelector((state) => state.board.selectedBoardId);
-    // const selectedBoardId = 1;
+  const selectedBoardId = useSelector((state) => state.board.selectedBoardId);
+  // const selectedBoardId = 1;
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    return (
-        <Wrapper>
-            {boards.map((board, index) => {
-                const isSelected = board.id === selectedBoardId;
-                return (
-                    <BoardItem
-                        key={index}
-                        board={board}
-                        isSelected={isSelected}
-                        onSelect={() => {
-                            dispatch(selectBoard(board.id));
-                        }}
-                        onDelete={() => {
-                            dispatch(deleteBoard(board.id));
-                        }}
-                    />
-                );
-            })}
-        </Wrapper>
-    );
+  return (
+    <Wrapper>
+      {boards.map((board, index) => {
+        const isSelected = board.id === selectedBoardId;
+        return (
+          <BoardItem
+            key={index}
+            board={board}
+            isSelected={isSelected}
+            onSelect={() => {
+              dispatch(selectBoard(board.id));
+            }}
+            onDelete={() => {
+              dispatch(deleteBoardThunk(board.id));
+            }}
+          />
+        );
+      })}
+    </Wrapper>
+  );
 }
 
 export default BoardList;

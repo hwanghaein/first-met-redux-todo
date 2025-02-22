@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import deleteBoardThunk from "../thunks/deleteBoardThunk";
 
 // 초기값
 const initialState = {
@@ -6,7 +7,8 @@ const initialState = {
   selectedBoardId: null,
 };
 
-const boardSlice = createSlice({ // 초기 상태 설정, reducer 정의, action creator 자동 생성을 한 번에 정의할 수 있도록 도와줌
+const boardSlice = createSlice({
+  // 초기 상태 설정, reducer 정의, action creator 자동 생성을 한 번에 정의할 수 있도록 도와줌
   name: "board",
   initialState,
   reducers: {
@@ -36,6 +38,18 @@ const boardSlice = createSlice({ // 초기 상태 설정, reducer 정의, action
     resetBoard: () => {
       return initialState;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(deleteBoardThunk.pending, (state, action) => {
+        console.log(action.type);
+      })
+      .addCase(deleteBoardThunk.fulfilled, (state, action) => {
+        console.log(action.type);
+      })
+      .addCase(deleteBoardThunk.rejected, (state, action) => {
+        console.log(action.type);
+      });
   },
 });
 
