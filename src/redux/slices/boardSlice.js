@@ -4,12 +4,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   boards: [],
   selectedBoardId: null,
-
-  resetBoardSaga: {
-    pending: false,
-    data: null,
-    error: null,
-  },
 };
 
 const boardSlice = createSlice({ // 초기 상태 설정, reducer 정의, action creator 자동 생성을 한 번에 정의할 수 있도록 도와줌
