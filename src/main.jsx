@@ -1,13 +1,20 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./components/App";
-import { Provider } from "react-redux"; // 모든 하위 컴포넌트들이 store의 state에 접근할 수 있게 됨
-import store from "./redux/store";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import store, { persistor } from './redux/store';
+import './index.css';
+import App from './components/App';
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+    <React.StrictMode>
+        <Provider store={store}>
+            <PersistGate
+                loading={null}
+                persistor={persistor}>
+                <App />
+            </PersistGate>
+        </Provider>
+    </React.StrictMode>
 );
